@@ -1,59 +1,88 @@
-import { PropTypes } from 'prop-types';
-import { Formik } from 'formik';
-import * as yup from 'yup';
-import {
-  FormEl,
-  InputEl,
-  Label,
-  SubmitButton,
-  Error,
-} from 'components/ContactForm/ContactForm.styled';
+import { useState } from 'react';
+import { nanoid } from '@reduxjs/toolkit';
+import { Form, Label, Button, Input } from './ContactForm.styled';
+import { ReactComponent as AddIcon } from '../icons/add.svg';
 
-const schema = yup.object().shape({
-  name: yup
-    .string()
-    .matches(
-      /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
-      "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-    )
-    .required(),
-  number: yup
-    .string()
-    .min(4)
-    .max(10)
-    .matches(
-      /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
-      'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
-    )
-    .required(),
-});
+import { useSelector, useDispatch } from 'react-redux';
+import { getVisibleContacts } from 'redux/selectors';
+import { addContact } from 'redux/contactsSlice';
 
-const initialValues = {
-  name: '',
-  number: '',
-};
+const nameInputId = nanoid();
+const numberInputId = nanoid();
 
-export const ContactForm = ({ onSubmit }) => {
+const ContactForm = () => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
+  const contacts = useSelector(getVisibleContacts);
+  const dispatch = useDispatch();
+
+  const handleSubmit = event => {
+    event.preventDefault();
+
+    const isInContacts = contacts.some(
+      contact => contact.name.toLowerCase().trim() === name.toLowerCase().trim()
+    );
+
+    if (isInContacts) {
+      alert(`${name} is already in contacts`);
+      return;
+    }
+
+    dispatch(addContact({ name, number }));
+    setName('');
+    setNumber('');
+  };
+
+  const handleChange = event => {
+    const { name, value } = event.target;
+
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'number':
+        setNumber(value);
+        break;
+      default:
+        return;
+    }
+  };
+
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={schema}
-      onSubmit={onSubmit}
-    >
-      <FormEl autoComplete="off">
-        <Label htmlFor="name">Name</Label>
-        <InputEl type="text" name="name" placeholder="Enter name" />
-        <Error name="name" component="div" />
+    <Form onSubmit={handleSubmit}>
+      <Label htmlFor={nameInputId}>
+        Name
+        <Input
+          type="text"
+          name="name"
+          value={name}
+          onChange={handleChange}
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+          required
+        />
+      </Label>
 
-        <Label htmlFor="number">Number</Label>
-        <InputEl type="tel" name="number" placeholder="Enter phone number" />
-        <Error name="number" component="div" />
-        <SubmitButton type="submit">Add contact</SubmitButton>
-      </FormEl>
-    </Formik>
+      <Label htmlFor={numberInputId}>
+        Number
+        <Input
+          type="tel"
+          name="number"
+          value={number}
+          onChange={handleChange}
+          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          required
+        />
+      </Label>
+
+      <Button type="submit">
+        <AddIcon fill="#f08080" width="25" height="25" />
+        Add contact
+      </Button>
+    </Form>
   );
 };
 
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
+export default ContactForm;

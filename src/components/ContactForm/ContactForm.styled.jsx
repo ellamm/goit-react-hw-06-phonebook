@@ -1,51 +1,38 @@
 import styled from 'styled-components';
 
-import { Form, Field, ErrorMessage } from 'formik';
-
-export const FormEl = styled(Form)`
+export const Form = styled.form`
   display: flex;
-  min-width: 420px;
-  align-items: center;
   flex-direction: column;
-  border-radius: 8px;
-`;
-
-export const InputEl = styled(Field)`
-  font-size: 16px;
-  width: 300px;
-  height: 30px;
-  margin-bottom: 15px;
-  padding: 5px;
-  border-radius: 8px;
-  font-weight: 700;
+  width: 400px;
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 3px solid #f08080;
+  border-radius: 4px;
 `;
 
 export const Label = styled.label`
-  font-size: 24px;
-  font-weight: 500;
-  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  color: #f08080;
+  font-size: 20px;
 `;
 
-export const SubmitButton = styled.button`
-  width: 150px;
-  height: 40px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 700;
+export const Input = styled.input`
+  padding: 8px 12px;
+  font: inherit;
   cursor: pointer;
-  margin-bottom: 10px;
-  :hover {
-    border: 2px solid #3A441B;
-    box-shadow: -6px 16px 11px -9px rgba(31, 25, 25, 0.75);
-  }
 `;
 
-export const Error = styled(ErrorMessage)`
-  width: 300px;
-  text-align: center;
-  color: #bf0a32eb;
-  margin-bottom: 15px;
-  font-weight: 500;
-  font-size: 16px;
+export const Button = styled.button`
+  padding: 8px 12px;
+  font: inherit;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 3px solid #f08080;
+  color: #f08080;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

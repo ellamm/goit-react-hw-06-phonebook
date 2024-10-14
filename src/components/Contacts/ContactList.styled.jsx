@@ -1,49 +1,35 @@
 import styled from 'styled-components';
 
-export const ContactListEl = styled.ul`
-  min-width: 420px;
+export const List = styled.ul`
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  list-style: none;
-  gap: 10px;
-  padding: 0;
-`;
-
-export const ContactListItem = styled.li`
-  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: 400px;
-  border: 2px solid #3A441B;
+  padding: 12px;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 3px solid #f08080;
+  list-style: none;
+`;
+
+export const Item = styled.li`
+  background-color: #ffffff;
+  border: 3px solid #f08080;
   padding: 10px;
-  text-align: center;
-  border-radius: 8px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20px;
 `;
 
-export const ContactItemHeader = styled.h2`
-  margin: 0;
-  margin-bottom: auto;
-`;
-
-export const ContactItemText = styled.p`
-  margin: 3px;
-  font-weight: 600;
-`;
-
-export const ContactItemButton = styled.button`
-  width: 100px;
-  border: 2px solid #A8B970;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: 600;
+export const Button = styled.button`
+  padding: 4px 8px;
+  font: inherit;
   cursor: pointer;
-  margin-top: auto;
-  padding: 3px;
-  :hover {
-    border: 2px solid #3A441B;
-    box-shadow: -6px 16px 11px -9px rgba(31, 25, 25, 0.75);
-  }
+  border-radius: 4px 8px;
+  border: 3px solid #f08080;
+  display: flex;
+  align-items: center;
 `;
